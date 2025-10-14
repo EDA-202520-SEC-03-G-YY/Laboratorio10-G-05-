@@ -64,9 +64,8 @@ def init():
 def new_analyzer():
     """ Inicializa el analizador
 
-   stops: Tabla de hash para guardar los vertices del grafo
+   stops: Tabla de hash para guardar la información de las paradas
    connections: Grafo para representar las rutas entre estaciones
-   components: Almacena la informacion de los componentes conectados
    paths: Estructura que almancena los caminos de costo minimo desde un
            vertice determinado a todos los otros vértices del grafo
     """
@@ -74,14 +73,13 @@ def new_analyzer():
         analyzer = {
             'stops': None,
             'connections': None,
-            'components': None,
             'paths': None
         }
 
         analyzer['stops'] = m.new_map(
-            num_elements=14000, load_factor=0.7, prime=109345121)
+            num_elements=8000, load_factor=0.7, prime=109345121)
 
-        analyzer['connections'] = G.new_graph(size=14000)
+        analyzer['connections'] = G.new_graph(order=8000)
         return analyzer
     except Exception as exp:
         return exp
@@ -92,7 +90,7 @@ def new_analyzer():
 # ___________________________________________________
 
 
-def load_services(analyzer, servicesfile):
+def load_services(analyzer, servicesfile, stopsfile):
     """
     Carga los datos de los archivos CSV en el modelo.
     Se crea un arco entre cada par de estaciones que
@@ -101,37 +99,34 @@ def load_services(analyzer, servicesfile):
     addRouteConnection crea conexiones entre diferentes rutas
     servidas en una misma estación.
     """
+    stopsfile = data_dir + stopsfile
+    stops_input_file = csv.DictReader(open(stopsfile, encoding="utf-8"),
+                                      delimiter=",")
+
+    for stop in stops_input_file:
+        add_stop(analyzer, stop)
+
     servicesfile = data_dir + servicesfile
     input_file = csv.DictReader(open(servicesfile, encoding="utf-8"),
                                 delimiter=",")
     lastservice = None
     for service in input_file:
+        if not G.contains_vertex(analyzer['connections'], format_vertex(service)):
+            add_stop_vertex(analyzer, format_vertex(service))
+        add_route_stop(analyzer, service)
+
         if lastservice is not None:
             sameservice = lastservice['ServiceNo'] == service['ServiceNo']
             samedirection = lastservice['Direction'] == service['Direction']
             samebusStop = lastservice['BusStopCode'] == service['BusStopCode']
             if sameservice and samedirection and not samebusStop:
                 add_stop_connection(analyzer, lastservice, service)
+
+        add_same_stop_connections(analyzer, service)
         lastservice = service
 
     return analyzer
 
-
-def set_station(analyzer, station):
-    """
-    Establece la estación base para la consulta de caminos
-    """
-    try:
-        station = str(station)
-        vertex = G.get_vertex(analyzer['connections'], station)
-        if vertex is not None:
-            # TODO: Llame a la ejecucion de Dijkstra desde la estacion
-            # base para calcular los caminos de costo minimo
-            return True
-        else:
-            return False
-    except Exception as exp:
-        return exp
 # ___________________________________________________
 #  Funciones para consultas
 # ___________________________________________________
@@ -188,17 +183,21 @@ def add_stop_connection(analyzer, lastservice, service):
         clean_service_distance(lastservice, service)
         distance = float(service['Distance']) - float(lastservice['Distance'])
         distance = abs(distance)
-        add_stop(analyzer, origin)
-        add_stop(analyzer, destination)
         add_connection(analyzer, origin, destination, distance)
-        add_route_stop(analyzer, service)
-        add_route_stop(analyzer, lastservice)
         return analyzer
     except Exception as exp:
         return exp
 
 
-def add_stop(analyzer, stopid):
+def add_stop(analyzer, stop):
+    """
+    Adiciona una estación como un vertice del grafo
+    """
+    stop['services'] = lt.new_list()
+    m.put(analyzer['stops'], stop['BusStopCode'], stop)
+    return analyzer
+
+def add_stop_vertex(analyzer, stopid):
     """
     Adiciona una estación como un vertice del grafo
     """
@@ -211,16 +210,11 @@ def add_route_stop(analyzer, service):
     """
     Agrega a una estacion, una ruta que es servida en ese paradero
     """
-    lstroutes = m.get(analyzer['stops'], service['BusStopCode'])
-    if lstroutes is None:
-        lstroutes = lt.new_list()
-        lt.add_last(lstroutes, service['ServiceNo'])
-        m.put(analyzer['stops'], service['BusStopCode'], lstroutes)
-    else:
-        lstroutes = lstroutes['value']
-        info = service['ServiceNo']
-        if not lt.is_present(lstroutes, info):
-            lt.add_last(lstroutes, info)
+    stop_info = m.get(analyzer['stops'], service['BusStopCode'])
+    stop_services = stop_info['services']
+    if lt.is_present(stop_services, service['ServiceNo'], lt.default_function) == -1:
+        lt.add_last(stop_services, service['ServiceNo'])
+
     return analyzer
 
 
@@ -232,9 +226,51 @@ def add_connection(analyzer, origin, destination, distance):
     G.add_edge(analyzer['connections'], origin, destination, distance)
 
 
-# ==============================
+
+def add_same_stop_connections(analyzer, service):
+    stop_1 = format_vertex(service)
+    stop_buses_lt = m.get(analyzer['stops'], service['BusStopCode'])['services']
+
+    if lt.size(stop_buses_lt) > 1:
+        pass
+
+    node = stop_buses_lt['first']
+    for _ in range(lt.size(stop_buses_lt)):
+        stop_2 = format_vertex({'BusStopCode': service['BusStopCode'], 'ServiceNo': node['info']})
+        if stop_1 != stop_2:
+            add_connection(analyzer, stop_1, stop_2, 0)
+        node = node['next']
+    return analyzer
+
+
+# ___________________________________________________
+#  Funciones de resolución de requerimientos
+# ___________________________________________________
+
+def get_most_concurrent_stops(analyzer):
+    # TODO: Obtener las 5 paradas más concurridas, es decir, con más arcos entrantes y salientes
+    ...
+
+def get_route_between_stops(analyzer, stop1, stop2):
+    # TODO: Obtener la ruta entre dos parada usando dfs o bfs
+    ...
+
+def get_shortest_route_between_stops(analyzer, stop1, stop2):
+    # TODO: Obtener la ruta mínima entre dos paradas
+    # Nota: Tenga en cuenta que el debe guardar en la llave
+    #       analyzer['paths'] el resultado del algoritmo de Dijkstra
+    ...
+
+def show_calculated_shortest_route(analyzer, destination_stop):
+    # TODO: Mostrar en un mapa la ruta mínima entre dos paradas usando folium
+    ...
+
+
+
+
+# ___________________________________________________
 # Funciones Helper
-# ==============================
+# ___________________________________________________
 
 def clean_service_distance(lastservice, service):
     """

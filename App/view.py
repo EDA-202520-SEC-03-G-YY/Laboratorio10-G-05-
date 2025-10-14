@@ -53,13 +53,16 @@ def print_menu():
     print("\n")
     print("*******************************************")
     print("Bienvenido")
-    print("1- Inicializar Analizador")
-    print("2- Cargar información de buses de singapur")
+    print("1- Cargar información de buses de singapur") 
+    print("2- Encontrar las paradas más concurridas") # Clase 1: Implementar el grafo
+    print("3- Encontrar una ruta entre dos paradas") # Casa 1: Implementar funcionalidad dfs y bfs
+    print("4- Encontrar la ruta mínima entre dos paradas") # Clase 2: Implementar dijkstra
+    print("5- Mostrar en un mapa la ruta mínima entre dos paradas") # Casa 2: Mostrar ruta con folium
     print("0- Salir")
     print("*******************************************")
 
 
-def option_two(cont):
+def option_one(cont):
     print("\nCargando información de transporte de singapur ....")
     logic.load_services(cont, servicefile)
     numedges = logic.total_connections(cont)
@@ -68,6 +71,17 @@ def option_two(cont):
     print('Numero de arcos: ' + str(numedges))
     print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
 
+def option_two(cont):
+    ...
+
+def option_three(cont):
+    ...
+
+def option_fout(cont):
+    ...
+
+def option_five(cont):
+    ...
 
 """
 Menu principal
@@ -82,10 +96,15 @@ def main():
 
         if int(inputs[0]) == 1:
             print("\nInicializando....")
-            # cont es el controlador que se usará de acá en adelante
-            cont = logic.init()
-
+            cont = logic.new_analyzer()
+            option_one(cont)
         elif int(inputs[0]) == 2:
+            option_two(cont)
+        elif int(inputs[0]) == 3:
+            option_two(cont)
+        elif int(inputs[0]) == 4:
+            option_two(cont)
+        elif int(inputs[0]) == 5:
             option_two(cont)
         else:
             working = False
