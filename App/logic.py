@@ -134,16 +134,16 @@ def load_services(analyzer, servicesfile, stopsfile):
 
 def total_stops(analyzer):
     """
-    Total de paradas de autobus
+    Total de paradas de autobus en el grafo
     """
-    return G.order(analyzer['connections'])
+    # TODO: Retorne el número de vértices del grafo
 
 
 def total_connections(analyzer):
     """
     Total de enlaces entre las paradas
     """
-    return G.size(analyzer['connections'])
+    # TODO: Retorne el número de arcos del grafo de conexiones
 
 
 # Funciones para la medición de tiempos
@@ -248,21 +248,37 @@ def add_same_stop_connections(analyzer, service):
 # ___________________________________________________
 
 def get_most_concurrent_stops(analyzer):
+    """
+    Obtiene las 5 paradas más concurridas
+    """
     # TODO: Obtener las 5 paradas más concurridas, es decir, con más arcos entrantes y salientes
     ...
 
-def get_route_between_stops(analyzer, stop1, stop2):
-    # TODO: Obtener la ruta entre dos parada usando dfs o bfs
+def get_route_between_stops_dfs(analyzer, stop1, stop2):
+    """
+    Obtener la ruta entre dos parada usando dfs
+    """
+    # TODO: Obtener la ruta entre dos parada usando dfs
+    ...
+
+def get_route_between_stops_bfs(analyzer, stop1, stop2):
+    """
+    Obtener la ruta entre dos parada usando bfs
+    """
+    # TODO: Obtener la ruta entre dos parada usando bfs
     ...
 
 def get_shortest_route_between_stops(analyzer, stop1, stop2):
+    """
+    Obtener la ruta mínima entre dos paradas
+    """
     # TODO: Obtener la ruta mínima entre dos paradas
     # Nota: Tenga en cuenta que el debe guardar en la llave
     #       analyzer['paths'] el resultado del algoritmo de Dijkstra
     ...
 
 def show_calculated_shortest_route(analyzer, destination_stop):
-    # TODO: Mostrar en un mapa la ruta mínima entre dos paradas usando folium
+    # (Opcional) TODO: Mostrar en un mapa la ruta mínima entre dos paradas usando folium
     ...
 
 

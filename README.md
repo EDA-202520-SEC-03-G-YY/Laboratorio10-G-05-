@@ -1,10 +1,10 @@
-# Laboratorio 11
+# Laboratorio 10
 
-[![Contributors][laboratorio-11-contributors-shield]][laboratorio-11-contributors-url]
-[![Forks][laboratorio-11-forks-shield]][laboratorio-11-forks-url]
-[![Stargazers][laboratorio-11-stars-shield]][laboratorio-11-stars-url]
-[![Issues][laboratorio-11-issues-shield]][laboratorio-11-issues-url]
-[![License][laboratorio-11-license-shield]][laboratorio-11-license-url]
+[![Contributors][laboratorio-10-contributors-shield]][laboratorio-10-contributors-url]
+[![Forks][laboratorio-10-forks-shield]][laboratorio-10-forks-url]
+[![Stargazers][laboratorio-10-stars-shield]][laboratorio-10-stars-url]
+[![Issues][laboratorio-10-issues-shield]][laboratorio-10-issues-url]
+[![License][laboratorio-10-license-shield]][laboratorio-10-license-url]
 
 Este es el repositorio es para el décimo laboratorio. Su objetivo es enseñar a los alumnos cómo utilizar el ADT Colas de Prioridad, cómo configurarlo como una PQ y cómo integrarlo en la vista y lógica del curso.
 
@@ -12,7 +12,7 @@ Este repositorio forma parte del marco docente de estructura de datos y algoritm
 
 **Tabla de contenido**
 
-1. [Sample Graph](#laboratorio-11)
+1. [Sample Graph](#laboratorio-10)
    1. [Miembros](#Miembros)
    1. [Acerca del proyecto](#Acerca-del-proyecto)
       1. [Estructura](#Estructura)
@@ -30,7 +30,7 @@ Los estudiantes editan esta sección para agregar sus nombres, correos electrón
 1. Nombre del estudiante No. 2, Correo electrónico del estudiante No. 2 Uniandes, Funcionalidad propiedad del estudiante No. 2.
 1. Nombre del estudiante No. 3, Correo electrónico del estudiante No. 3 Uniandes, Funcionalidad propiedad del estudiante No. 3.
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 ## Acerca del proyecto
 
@@ -38,7 +38,7 @@ Este repositorio plantilla se usa en los laboratorios del curso de estructuras d
 
 **IMPORTANTE** Este es un trabajo en progreso y es parte de un marco pedagógico para estudiantes universitarios de pregrado en la Universidad de los Andes. Este proyecto NO está pensado como un proyecto de código fuente completamente funcional.
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 ### Estructura
 
@@ -49,7 +49,7 @@ Este repositorio de laboratorio tiene cuatro partes principales:
 1. [Data:](./Data) Carpeta con archivos de datos CSV para cargar en la aplicación. Aquí los estudiantes agregan los archivos de datos proporcionados por el personal del curso para completar el laboratorio.
 1. [Docs:](./Docs) Carpeta con el informe, tabla de datos y otra documentación. Aquí los estudiantes agregan su informe de proyecto, tablas de datos y otros archivos para complementar su implementación de código.
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 ## Uso
 
@@ -62,7 +62,7 @@ Para usar esta plantilla, debe seguir los pasos a continuación:
 - Implemente las funciones que faltan de acuerdo con las instrucciones de laboratorio en los scripts MVC en la carpeta [App](./App).
 - Complete el informe de laboratorio, registre sus pruebas y análisis en los documentos en la carpeta [Docs](./Docs) de acuerdo con las instrucciones (El informe **DEBE SER** en formato PDF).
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 ## Contacto y Soporte
 
@@ -72,7 +72,7 @@ Para más información y contactarnos, utilice los siguientes enlaces:
 
 Si necesita más información, póngase en contacto con nosotros [en este correo](mailto:isis1225@uniandes.edu.co)
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 ## Contribuir
 
@@ -87,7 +87,7 @@ Si tiene una sugerencia para mejorar el proyecto, bifurque (Fork) el repositorio
 4. Empuje (Push) los cambios a la rama (`git push origin funcionalidad/increibleFuncionalidad `).
 5. Abrir una solicitud de extracción (Pull Request).
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 ## Licencia
 
@@ -98,7 +98,7 @@ Este programa es software libre: puede redistribuirlo y/o modificarlo bajo los t
 
 Este programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA GARANTÍA, sin siquiera la garantía implícita de COMERCIABILIDAD o IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Ver el [GNU General Public License](LICENSE) Para obtener más información, vaya a [GNU ORG][gnu-url].
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 <!-- ACKNOWLEDGMENTS -->
 
@@ -107,8 +107,10 @@ Este programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA 
 - [Dario Correal][dariocorreal-url] es el autor original y desarrollador principal de la librería.
 - [Santiago Arteaga][phillipus85-url] es colaborador y administrador de repositorios.
 - [Luis Florez][le99-url] es colaborador y desarrolló los ejemplos y tutoriales para la librería.
+- [Lindsay Pinto][lindsayPinto-url] es colaboradora y desarrolló modificaciones para el laboratorio.
+- [Cristóbal Arroyo][crola1702-url] es colaborador y desarrolló modificaciones para el laboratorio.
 
-[Volver al inicio](#laboratorio-11)
+[Volver al inicio](#laboratorio-10)
 
 [data-struc-url]: https://isis1225devs.github.io/ISIS1225-Structure-Documentation/
 [uniandes-url]: https://cursos.virtual.uniandes.edu.co/isis1225/
@@ -122,17 +124,18 @@ Este programa se distribuye con la esperanza de que sea útil, pero SIN NINGUNA 
 [phillipus85-url]: https://github.com/phillipus85
 [le99-url]: https://github.com/le99
 [lindsayPinto-url]: https://github.com/LindsayPinto
-[laboratorio-11-contributors-shield]: https://img.shields.io/github/contributors/ISIS1225DEVS/ISIS1225-laboratorio-11.svg?style=for-the-badge
-[laboratorio-11-contributors-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/graphs/contributors
-[laboratorio-11-forks-shield]: https://img.shields.io/github/forks/ISIS1225DEVS/ISIS1225-laboratorio-11.svg?style=for-the-badge
-[laboratorio-11-forks-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/network/members
-[laboratorio-11-stars-shield]: https://img.shields.io/github/stars/ISIS1225DEVS/ISIS1225-laboratorio-11.svg?style=for-the-badge
-[laboratorio-11-stars-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/stargazers
-[laboratorio-11-issues-shield]: https://img.shields.io/github/issues/ISIS1225DEVS/ISIS1225-laboratorio-11.svg?style=for-the-badge
-[laboratorio-11-issues-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/issues
-[laboratorio-11-license-shield]: https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge
-[laboratorio-11-license-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/blob/master/LICENSE
-[laboratorio-11-bugs-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/issues
-[laboratorio-11-issues-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-11/issues
+[crola1702-url]: https://github.com/Crola1702
+[laboratorio-10-contributors-shield]: https://img.shields.io/github/contributors/ISIS1225DEVS/ISIS1225-laboratorio-10.svg?style=for-the-badge
+[laboratorio-10-contributors-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/graphs/contributors
+[laboratorio-10-forks-shield]: https://img.shields.io/github/forks/ISIS1225DEVS/ISIS1225-laboratorio-10.svg?style=for-the-badge
+[laboratorio-10-forks-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/network/members
+[laboratorio-10-stars-shield]: https://img.shields.io/github/stars/ISIS1225DEVS/ISIS1225-laboratorio-10.svg?style=for-the-badge
+[laboratorio-10-stars-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/stargazers
+[laboratorio-10-issues-shield]: https://img.shields.io/github/issues/ISIS1225DEVS/ISIS1225-laboratorio-10.svg?style=for-the-badge
+[laboratorio-10-issues-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/issues
+[laboratorio-10-license-shield]: https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge
+[laboratorio-10-license-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/blob/master/LICENSE
+[laboratorio-10-bugs-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/issues
+[laboratorio-10-issues-url]: https://github.com/ISIS1225DEVS/ISIS1225-laboratorio-10/issues
 [contributors-shield]: https://img.shields.io/github/contributors/ISIS1225DEVS/ISIS1225-Lib.svg?style=for-the-badge
 [BrightSpace-url]: https://bloqueneon.uniandes.edu.co/d2l/home

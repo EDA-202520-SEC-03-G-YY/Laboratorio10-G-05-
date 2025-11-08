@@ -53,7 +53,7 @@ def print_menu():
     print("\n")
     print("*******************************************")
     print("Bienvenido")
-    print("1- Cargar información de buses de singapur") 
+    print("1- Cargar información de buses de singapur") # Clase 1: Implementar grafo y mostrar datos
     print("2- Encontrar las paradas más concurridas") # Clase 1: Implementar el grafo
     print("3- Encontrar una ruta entre dos paradas") # Casa 1: Implementar funcionalidad dfs y bfs
     print("4- Encontrar la ruta mínima entre dos paradas") # Clase 2: Implementar dijkstra
@@ -72,16 +72,25 @@ def option_one(cont):
     print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
 
 def option_two(cont):
+    # TODO: Imprimir los resultados de la opción 2
     ...
 
 def option_three(cont):
+    # TODO: Imprimir los resultados de la opción 3
     ...
 
-def option_fout(cont):
+def option_four(cont):
+    # TODO: Imprimir los resultados de la opción 4
     ...
 
 def option_five(cont):
+    # TODO: Imprimir los resultados de la opción 5
     ...
+
+def option_six(cont):
+    # (Opcional) TODO: Imprimir los resultados de la opción 6
+    ...
+
 
 """
 Menu principal
@@ -101,11 +110,13 @@ def main():
         elif int(inputs[0]) == 2:
             option_two(cont)
         elif int(inputs[0]) == 3:
-            option_two(cont)
+            option_three(cont)
         elif int(inputs[0]) == 4:
-            option_two(cont)
+            option_four(cont)
         elif int(inputs[0]) == 5:
-            option_two(cont)
+            option_five(cont)
+        elif int(inputs[0]) == 6:
+            option_six(cont)
         else:
             working = False
             print("Saliendo...")
