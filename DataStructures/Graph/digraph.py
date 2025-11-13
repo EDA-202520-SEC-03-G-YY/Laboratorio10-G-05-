@@ -1,6 +1,7 @@
-from DataStructures.Map import map_separate_chaining as sc
+from DataStructures.Map import map_linear_probing as mp
 
 def new_graph(order):
+    
     pass
 
 def insert_vertex(my_graph, key_u, info_u):
