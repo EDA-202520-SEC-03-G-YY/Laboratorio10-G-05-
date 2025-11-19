@@ -39,3 +39,25 @@ def order(my_graph):
 
 def size(my_graph):
     return my_graph["num_edges"]
+
+def degree(my_graph, key_u):
+    pass
+
+def adjacents(my_graph, key_u):
+    pass
+
+def vertices(my_graph):
+    pass
+
+def edges_vertex(my_graph, key_u):
+    pass
+
+def get_vertex(my_graph, key_u):
+    pass
+
+def update_vertex_info(my_graph, key_u, new_info_u):
+    pass
+
+def get_vertex_information(my_graph, key_u):
+    pass
+
