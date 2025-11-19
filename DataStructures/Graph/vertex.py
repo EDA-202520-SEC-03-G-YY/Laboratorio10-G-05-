@@ -120,7 +120,7 @@ def add_adjacent(vertex, key_vertex, weight):
 
     """
     new_edge = edg.new_edge(key_vertex, weight)
-    vertex["adjacents"] = mp.put(vertex["adjacents"], key_vertex, new_edge)
+    mp.put(vertex["adjacents"], key_vertex, new_edge)
     return vertex
 
 
