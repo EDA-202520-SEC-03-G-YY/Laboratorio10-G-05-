@@ -31,6 +31,8 @@
 from DataStructures.List import single_linked_list as lt
 from DataStructures.Map import map_linear_probing as m
 from DataStructures.Graph import digraph as G
+from DataStructures.Graph import dfs as dfs
+from DataStructures.List import array_list as al
 
 import csv
 import time
@@ -136,14 +138,15 @@ def total_stops(analyzer):
     """
     Total de paradas de autobus en el grafo
     """
-    # TODO: Retorne el número de vértices del grafo
-
+    # número de vértices del grafo
+    return G.order(analyzer["connections"])
 
 def total_connections(analyzer):
     """
     Total de enlaces entre las paradas
     """
-    # TODO: Retorne el número de arcos del grafo de conexiones
+    # número de arcos del grafo de conexiones
+    return G.size(analyzer["connections"])
 
 
 # Funciones para la medición de tiempos
@@ -212,7 +215,7 @@ def add_route_stop(analyzer, service):
     """
     stop_info = m.get(analyzer['stops'], service['BusStopCode'])
     stop_services = stop_info['services']
-    if lt.is_present(stop_services, service['ServiceNo'], lt.default_function) == -1:
+    if lt.is_present(stop_services, service['ServiceNo'], lt.default_sort_criteria) == -1:
         lt.add_last(stop_services, service['ServiceNo'])
 
     return analyzer
@@ -251,15 +254,50 @@ def get_most_concurrent_stops(analyzer):
     """
     Obtiene las 5 paradas más concurridas
     """
-    # TODO: Obtener las 5 paradas más concurridas, es decir, con más arcos salientes
-    ...
+    #  5 paradas más concurridas, es decir, con más arcos salientes
+    vertices = G.vertices(analyzer["connections"])
+    mapa = m.new_map(800, 0.5)
+    for i in range(al.size(vertices)):
+        vertex = al.get_element(vertices, i)
+        deg = G.degree(analyzer["connections"], vertex)
+        m.put(mapa, vertex, deg)
+
+    items = al.new_list()
+    keys = m.key_set(mapa)
+
+    for i in range(al.size(keys)):
+        key = al.get_element(keys, i)
+        degree = m.get(mapa, key)
+        al.add_last(items, {"vertex": key, "degree": degree})
+
+    def sort_crit(e1, e2):
+        return e1["degree"] > e2["degree"]
+
+    items = al.merge_sort(items, sort_crit)
+
+    t5 = al.new_list()
+    tam = min(5, al.size(items))
+
+    for i in range(tam):
+        al.add_last(5, al.get_element(items, i))
+
+    return t5
+    
+    return mapa
+     
+    
+       
 
 def get_route_between_stops_dfs(analyzer, stop1, stop2):
     """
     Obtener la ruta entre dos parada usando dfs
     """
-    # TODO: Obtener la ruta entre dos parada usando dfs
-    ...
+    # Obtener la ruta entre dos parada usando dfs
+    dfs_ = dfs.dfs(analyzer["connections"], stop1)
+    print(dfs.has_path_to(stop2, dfs_))
+    if dfs.has_path_to(stop2, dfs_):
+        return dfs.path_to(stop2, dfs_)
+    return None
 
 def get_route_between_stops_bfs(analyzer, stop1, stop2):
     """
