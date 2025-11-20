@@ -35,9 +35,11 @@ def bfs_vertex(my_graph, vertex, visited_map):
 
     while not q.is_empty(queue):
         current_vertex = q.dequeue(queue)
+        if current_vertex is None:
+            continue
         adjacents = current_vertex.get("adjacents", None)
         if adjacents is not None:
-            for key_v in mp.keys(adjacents):
+            for key_v in mp.key_set(adjacents):
                 if not mp.contains(marked, key_v):
                     mp.put(marked, key_v, True)
                     mp.put(edge_to, key_v, current_vertex["key"])
