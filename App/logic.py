@@ -306,6 +306,7 @@ def get_route_between_stops_bfs(analyzer, stop1, stop2):
     """
     #  Obtener la ruta entre dos parada usando bfs
     bfs_ = bfs.bfs(analyzer["connections"], stop1)
+    print(bfs_)
     print(bfs.has_path_to(stop2, bfs_))
     if bfs.has_path_to(stop2, bfs_):
         return bfs.path_to(stop2, bfs_)
