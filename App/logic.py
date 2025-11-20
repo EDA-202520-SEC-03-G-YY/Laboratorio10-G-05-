@@ -33,6 +33,7 @@ from DataStructures.Map import map_linear_probing as m
 from DataStructures.Graph import digraph as G
 from DataStructures.Graph import dfs as dfs
 from DataStructures.List import array_list as al
+from DataStructures.Graph import bfs as bfs
 
 import csv
 import time
@@ -303,8 +304,11 @@ def get_route_between_stops_bfs(analyzer, stop1, stop2):
     """
     Obtener la ruta entre dos parada usando bfs
     """
-    # TODO: Obtener la ruta entre dos parada usando bfs
-    ...
+    #  Obtener la ruta entre dos parada usando bfs
+    bfs_ = bfs.bfs(analyzer["connections"], stop1)
+    print(bfs.has_path_to(stop2, bfs_))
+    if bfs.has_path_to(stop2, bfs_):
+        return bfs.path_to(stop2, bfs_)
 
 def get_shortest_route_between_stops(analyzer, stop1, stop2):
     """
