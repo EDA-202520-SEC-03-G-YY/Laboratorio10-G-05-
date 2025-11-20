@@ -15,8 +15,24 @@ def bfs_vertex(my_graph, vertex, visited_map):
 
 
 def has_path_to(key_v, visited_map):
-    pass
+    marked = visited_map["marked"]
+    return mp.contains(marked, key_v)
 
 
 def path_to(key_v, visited_map):
-    pass
+    if not has_path_to(key_v, visited_map):
+        return None
+
+    edge_to = visited_map["edge_to"]
+    source = visited_map["source"]
+
+    path = st.new_stack()
+    v = key_v
+
+    while True:
+        st.push(path, v)
+        if v == source or not mp.contains(edge_to, v):
+            break
+        v = mp.get(edge_to, v)
+
+    return path
