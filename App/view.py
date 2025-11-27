@@ -74,11 +74,22 @@ def option_one(cont):
     print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
 
 def option_two(cont):
-    # Imprimir los resultados de la opción 2
-    print("Las paradas más concurridas son: \n")
+    """
+    Opción 2: Encontrar las paradas más concurridas
+    """
+    print("\n------ OPCIÓN 2 ------")
+    print("Las paradas más concurridas son:")
+    
+    # Obtener las paradas más concurridas
     resp = logic.get_most_concurrent_stops(cont)
-    print(resp)
-
+    
+    # Importar array_list para recorrer
+    from DataStructures.List import array_list as al
+    
+    # Imprimir cada parada
+    for i in range(al.size(resp)):
+        stop = al.get_element(resp, i)
+        print(f"{i+1}. '{stop['BusStopCode']}': {stop['out_degree']} conexiones")
 def option_three(cont):
     #  Imprimir los resultados de la opción 3
     stop1 = input("Parada inicial: ")

@@ -34,6 +34,7 @@ from DataStructures.Graph import digraph as G
 from DataStructures.Graph import dfs as dfs
 from DataStructures.List import array_list as al
 from DataStructures.Graph import bfs as bfs
+from DataStructures.Stack import stack as st
 
 import csv
 import time
@@ -251,65 +252,160 @@ def add_same_stop_connections(analyzer, service):
 #  Funciones de resolución de requerimientos
 # ___________________________________________________
 
+
 def get_most_concurrent_stops(analyzer):
     """
-    Obtiene las 5 paradas más concurridas
+    Obtiene las 5 paradas más concurridas, es decir, con más arcos salientes
     """
-    #  5 paradas más concurridas, es decir, con más arcos salientes
     vertices = G.vertices(analyzer["connections"])
-    mapa = m.new_map(800, 0.5)
+    
+    # Diccionario para agrupar por BusStopCode
+    stops_dict = {}
+    
+    # Recorrer todos los vértices
     for i in range(al.size(vertices)):
         vertex = al.get_element(vertices, i)
-        deg = G.degree(analyzer["connections"], vertex)
-        m.put(mapa, vertex, deg)
-
+        
+        # Extraer BusStopCode (parte antes del guion)
+        parts = vertex.split('-')
+        if len(parts) != 2:
+            continue
+            
+        bus_stop_code = parts[0]
+        service_no = parts[1]
+        
+        # Inicializar si no existe
+        if bus_stop_code not in stops_dict:
+            stops_dict[bus_stop_code] = {
+                'services': set(),
+                'vertices': [],
+                'out_degree': 0
+            }
+        
+        # Agregar el servicio y el vértice
+        stops_dict[bus_stop_code]['services'].add(service_no)
+        stops_dict[bus_stop_code]['vertices'].append(vertex)
+        
+        # Sumar el grado de salida (conexiones hacia otras paradas)
+        adjacents_list = G.adjacents(analyzer["connections"], vertex)
+        
+        for j in range(al.size(adjacents_list)):
+            adj = al.get_element(adjacents_list, j)
+            # Extraer el BusStopCode del adyacente
+            adj_stop_code = adj.split('-')[0]
+            # Contar solo si va hacia OTRA parada (no cambio de bus interno)
+            if adj_stop_code != bus_stop_code:
+                stops_dict[bus_stop_code]['out_degree'] += 1
+    
+    # Convertir a lista para ordenar
     items = al.new_list()
-    keys = m.key_set(mapa)
-
-    for i in range(al.size(keys)):
-        key = al.get_element(keys, i)
-        degree = m.get(mapa, key)
-        al.add_last(items, {"vertex": key, "degree": degree})
-
+    for bus_stop_code, info in stops_dict.items():
+        al.add_last(items, {
+            'BusStopCode': bus_stop_code,
+            'num_services': len(info['services']),
+            'services': sorted(list(info['services'])),
+            'out_degree': info['out_degree'],
+            'vertices': info['vertices']
+        })
+    
+    # Ordenar por grado de salida (descendente)
     def sort_crit(e1, e2):
-        return e1["degree"] > e2["degree"]
-
+        if e1['out_degree'] != e2['out_degree']:
+            return e1['out_degree'] > e2['out_degree']
+        return e1['num_services'] > e2['num_services']
+    
     items = al.merge_sort(items, sort_crit)
-
-    t5 = al.new_list()
+    
+    # Tomar los top 5
+    result = al.new_list()
     tam = min(5, al.size(items))
-
+    
     for i in range(tam):
-        al.add_last(5, al.get_element(items, i))
+        al.add_last(result, al.get_element(items, i))
+    
+    return result
 
-    return t5
-    
-    return mapa
-     
-    
+
+
        
 
 def get_route_between_stops_dfs(analyzer, stop1, stop2):
     """
-    Obtener la ruta entre dos parada usando dfs
+    Obtener la ruta entre dos paradas usando DFS
     """
-    # Obtener la ruta entre dos parada usando dfs
-    dfs_ = dfs.dfs(analyzer["connections"], stop1)
-    print(dfs.has_path_to(stop2, dfs_))
-    if dfs.has_path_to(stop2, dfs_):
-        return dfs.path_to(stop2, dfs_)
-    return None
+    graph = analyzer["connections"]
+    
+    # Verificar que ambos vértices existen
+    if not G.contains_vertex(graph, stop1):
+        return None
+    if not G.contains_vertex(graph, stop2):
+        return None
+    
+    # Ejecutar DFS desde stop1
+    visited_map = dfs.dfs(graph, stop1)
+    
+    # Verificar si existe camino hacia stop2
+    if not dfs.has_path_to(stop2, visited_map):
+        return None
+    
+    # Obtener el camino (stack con el camino completo)
+    path_stack = dfs.path_to(stop2, visited_map)
+    
+    if path_stack is None:
+        return None
+    
+    # Convertir el stack en lista
+    result = al.new_list()
+    temp_stack = st.new_stack()
+    
+    while not st.is_empty(path_stack):
+        vertex = st.pop(path_stack)
+        st.push(temp_stack, vertex)
+    
+    while not st.is_empty(temp_stack):
+        vertex = st.pop(temp_stack)
+        al.add_last(result, vertex)
+    
+    return result
 
 def get_route_between_stops_bfs(analyzer, stop1, stop2):
     """
-    Obtener la ruta entre dos parada usando bfs
+    Obtener la ruta entre dos paradas usando BFS
     """
-    #  Obtener la ruta entre dos parada usando bfs
-    bfs_ = bfs.bfs(analyzer["connections"], stop1)
-    print(bfs_)
-    print(bfs.has_path_to(stop2, bfs_))
-    if bfs.has_path_to(stop2, bfs_):
-        return bfs.path_to(stop2, bfs_)
+    graph = analyzer["connections"]
+    
+    # Verificar que ambos vértices existen
+    if not G.contains_vertex(graph, stop1):
+        return None
+    if not G.contains_vertex(graph, stop2):
+        return None
+    
+    # Ejecutar BFS desde stop1
+    visited_map = bfs.bfs(graph, stop1)
+    
+    # Verificar si existe camino hacia stop2
+    if not bfs.has_path_to(stop2, visited_map):
+        return None
+    
+    # Obtener el camino (stack con el camino completo)
+    path_stack = bfs.path_to(stop2, visited_map)
+    
+    if path_stack is None:
+        return None
+    
+    # Convertir el stack en lista
+    result = al.new_list()
+    temp_stack = st.new_stack()
+    
+    while not st.is_empty(path_stack):
+        vertex = st.pop(path_stack)
+        st.push(temp_stack, vertex)
+    
+    while not st.is_empty(temp_stack):
+        vertex = st.pop(temp_stack)
+        al.add_last(result, vertex)
+    
+    return result
 
 def get_shortest_route_between_stops(analyzer, stop1, stop2):
     """
