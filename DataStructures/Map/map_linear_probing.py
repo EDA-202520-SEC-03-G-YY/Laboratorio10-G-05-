@@ -143,21 +143,18 @@ def is_empty(my_map):
 
 def key_set(my_map):
    keys = lt.new_list()
-   for i in range(1,lt.size(my_map["table"])):
+   for i in range(lt.size(my_map["table"])):  # CAMBIAR: range(1,...) a range(...)
       entry = lt.get_element(my_map["table"],i)
       if me.get_key(entry) is not None and me.get_key(entry) != "__EMPTY__":
-
          lt.add_last(keys,me.get_key(entry))
-      
    return keys
 
 def value_set(my_map):
    values = lt.new_list()
-   for i in range(1,lt.size(my_map["table"])):
+   for i in range(lt.size(my_map["table"])):  # CAMBIAR: range(1,...) a range(...)
       entry = lt.get_element(my_map["table"],i)
       if me.get_key(entry) != None and me.get_key(entry) != "__EMPTY__":
          lt.add_last(values,me.get_value(entry))
-      
    return values
 
 

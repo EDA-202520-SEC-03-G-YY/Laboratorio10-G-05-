@@ -1,6 +1,5 @@
 from DataStructures.Map import map_linear_probing as mp
 from DataStructures.Graph import digraph as dig
-from DataStructures.Graph import dfo_structure as dfo   
 from DataStructures.Queue import queue as q
 from DataStructures.Stack import stack as st
 from DataStructures.List import array_list as lt
@@ -10,62 +9,60 @@ def bfs(my_graph, source):
     if my_graph is None:
         return None
 
-    vertex_source = mp.get(my_graph["vertices"], source)
-    if vertex_source is None:
+    if not dig.contains_vertex(my_graph, source):
         raise Exception("El vertice source no existe")
 
-    visited_map = {
-        "marked": mp.new_map(dig.order(my_graph), 0.5),
-        "edge_to": mp.new_map(dig.order(my_graph), 0.5),
-        "queue": q.new_queue(),
-        "source": source
-    }
+    visited_map = mp.new_map(dig.order(my_graph), 0.5)
+    
+    mp.put(visited_map, source, {
+        "edge_from": None,
+        "visited": True
+    })
 
-    bfs_vertex(my_graph, vertex_source, visited_map)
+    bfs_vertex(my_graph, source, visited_map)
     return visited_map
 
 
-def bfs_vertex(my_graph, vertex, visited_map):
-    marked = visited_map["marked"]
-    edge_to = visited_map["edge_to"]
-    queue = visited_map["queue"]
-
-    mp.put(marked, vertex["key"], True)
-    q.enqueue(queue, vertex)
+def bfs_vertex(my_graph, source, visited_map):
+    queue = q.new_queue()
+    q.enqueue(queue, source)
 
     while not q.is_empty(queue):
-        current_vertex = q.dequeue(queue)
-        if current_vertex is None:
+        current_key = q.dequeue(queue)
+        if current_key is None:
             continue
-        adjacents = current_vertex.get("adjacents", None)
-        if adjacents is not None:
-            for key_v in mp.key_set(adjacents):
-                if not mp.contains(marked, key_v):
-                    mp.put(marked, key_v, True)
-                    mp.put(edge_to, key_v, current_vertex["key"])
-                    neighbor_vertex = mp.get(my_graph["vertices"], key_v)
-                    q.enqueue(queue, neighbor_vertex)
+        
+        adjacents_list = dig.adjacents(my_graph, current_key)
+        
+        for i in range(lt.size(adjacents_list)):
+            key_v = lt.get_element(adjacents_list, i)
+            
+            if not mp.contains(visited_map, key_v):
+                mp.put(visited_map, key_v, {
+                    "edge_from": current_key,
+                    "visited": True
+                })
+                q.enqueue(queue, key_v)
+    
+    return visited_map
 
 
 def has_path_to(key_v, visited_map):
-    marked = visited_map["marked"]
-    return mp.contains(marked, key_v)
+    return mp.contains(visited_map, key_v)
 
 
 def path_to(key_v, visited_map):
     if not has_path_to(key_v, visited_map):
         return None
 
-    edge_to = visited_map["edge_to"]
-    source = visited_map["source"]
-
     path = st.new_stack()
-    v = key_v
-
-    while True:
-        st.push(path, v)
-        if v == source or not mp.contains(edge_to, v):
+    
+    current = key_v
+    while current is not None:
+        st.push(path, current)
+        vertex_info = mp.get(visited_map, current)
+        if vertex_info is None:
             break
-        v = mp.get(edge_to, v)
+        current = vertex_info.get("edge_from")
 
     return path

@@ -85,12 +85,18 @@ def option_two(cont):
     for i in range(al.size(resp)):
         stop = al.get_element(resp, i)
         print(f"{i+1}. '{stop['BusStopCode']}': {stop['out_degree']} conexiones")
+
+
+
+
 def option_three(cont):
-    #  Imprimir los resultados de la opción 3
+    """
+    Opción 3: Encontrar una ruta entre dos paradas usando DFS
+    """
     stop1 = input("Parada inicial: ")
     stop2 = input("Parada destino: ")
     
-    path = logic.get_route_between_stops_dfs(cont, stop1, stop2)
+    path = logic.get_route_between_stops_bfs(cont, stop1, stop2)
     print(path)
 
 def option_four(cont):

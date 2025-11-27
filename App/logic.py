@@ -319,33 +319,27 @@ def get_most_concurrent_stops(analyzer):
 
 
        
-
 def get_route_between_stops_dfs(analyzer, stop1, stop2):
     """
     Obtener la ruta entre dos paradas usando DFS
     """
     graph = analyzer["connections"]
     
-    # Verificar que ambos vértices existen
     if not G.contains_vertex(graph, stop1):
         return None
     if not G.contains_vertex(graph, stop2):
         return None
     
-    # Ejecutar DFS desde stop1
     visited_map = dfs.dfs(graph, stop1)
     
-    # Verificar si existe camino hacia stop2
     if not dfs.has_path_to(stop2, visited_map):
         return None
     
-    # Obtener el camino (stack con el camino completo)
     path_stack = dfs.path_to(stop2, visited_map)
     
     if path_stack is None:
         return None
     
-    # Convertir el stack en lista
     result = al.new_list()
     temp_stack = st.new_stack()
     
@@ -358,8 +352,10 @@ def get_route_between_stops_dfs(analyzer, stop1, stop2):
         al.add_last(result, vertex)
     
     return result
-
+            
+    
 def get_route_between_stops_bfs(analyzer, stop1, stop2):
+    
     """
     Obtener la ruta entre dos paradas usando BFS
     """
