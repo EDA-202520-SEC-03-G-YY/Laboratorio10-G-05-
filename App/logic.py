@@ -259,14 +259,11 @@ def get_most_concurrent_stops(analyzer):
     """
     vertices = G.vertices(analyzer["connections"])
     
-    # Diccionario para agrupar por BusStopCode
     stops_dict = {}
     
-    # Recorrer todos los vértices
     for i in range(al.size(vertices)):
         vertex = al.get_element(vertices, i)
         
-        # Extraer BusStopCode (parte antes del guion)
         parts = vertex.split('-')
         if len(parts) != 2:
             continue
@@ -274,7 +271,6 @@ def get_most_concurrent_stops(analyzer):
         bus_stop_code = parts[0]
         service_no = parts[1]
         
-        # Inicializar si no existe
         if bus_stop_code not in stops_dict:
             stops_dict[bus_stop_code] = {
                 'services': set(),
@@ -282,22 +278,18 @@ def get_most_concurrent_stops(analyzer):
                 'out_degree': 0
             }
         
-        # Agregar el servicio y el vértice
         stops_dict[bus_stop_code]['services'].add(service_no)
         stops_dict[bus_stop_code]['vertices'].append(vertex)
         
-        # Sumar el grado de salida (conexiones hacia otras paradas)
         adjacents_list = G.adjacents(analyzer["connections"], vertex)
         
         for j in range(al.size(adjacents_list)):
             adj = al.get_element(adjacents_list, j)
-            # Extraer el BusStopCode del adyacente
             adj_stop_code = adj.split('-')[0]
-            # Contar solo si va hacia OTRA parada (no cambio de bus interno)
+           
             if adj_stop_code != bus_stop_code:
                 stops_dict[bus_stop_code]['out_degree'] += 1
     
-    # Convertir a lista para ordenar
     items = al.new_list()
     for bus_stop_code, info in stops_dict.items():
         al.add_last(items, {
@@ -308,7 +300,6 @@ def get_most_concurrent_stops(analyzer):
             'vertices': info['vertices']
         })
     
-    # Ordenar por grado de salida (descendente)
     def sort_crit(e1, e2):
         if e1['out_degree'] != e2['out_degree']:
             return e1['out_degree'] > e2['out_degree']
@@ -334,22 +325,27 @@ def get_route_between_stops_dfs(analyzer, stop1, stop2):
     Obtener la ruta entre dos paradas usando DFS
     """
     graph = analyzer["connections"]
-   
+    
+    # Verificar que ambos vértices existen
     if not G.contains_vertex(graph, stop1):
         return None
     if not G.contains_vertex(graph, stop2):
         return None
     
+    # Ejecutar DFS desde stop1
     visited_map = dfs.dfs(graph, stop1)
     
+    # Verificar si existe camino hacia stop2
     if not dfs.has_path_to(stop2, visited_map):
         return None
     
+    # Obtener el camino (stack con el camino completo)
     path_stack = dfs.path_to(stop2, visited_map)
     
     if path_stack is None:
         return None
     
+    # Convertir el stack en lista
     result = al.new_list()
     temp_stack = st.new_stack()
     

@@ -82,7 +82,7 @@ def put(my_map, key, value):
       lt.get_element(my_map["table"], slot)["value"] = value
       my_map["size"] += 1
       my_map["current_factor"] = my_map["size"] / my_map["capacity"]
-   return None
+   return my_map
 
 def contains(my_map,key):
    hash_value = mf.hash_value(my_map,key)

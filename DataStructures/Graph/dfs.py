@@ -1,6 +1,5 @@
 from DataStructures.Map import map_linear_probing as mp
 from DataStructures.Graph import digraph as dig
-from DataStructures.Graph import dfo_structure as dfo
 from DataStructures.Queue import queue as q
 from DataStructures.Stack import stack as st
 from DataStructures.List import array_list as lt
@@ -13,40 +12,39 @@ def dfs(my_graph, source):
     if not dig.contains_vertex(my_graph, source):
         raise Exception("El vertice no existe")
 
-    search = dfo.new_dfo_structure(dig.order(my_graph))
+  
+    visited_map = mp.new_map(dig.order(my_graph), 0.5)
+    
 
-    dfs_vertex(my_graph, source, search)
+    mp.put(visited_map, source, {
+        'edge_from': None,
+        'visited': True
+    })
 
-    return search
+    dfs_vertex(my_graph, source, visited_map)
+
+    return visited_map
 
 
-def dfs_vertex(my_graph, vertex, search):
-    marked = search["marked"]
-    pre = search["pre"]
-    post = search["post"]
-    reversepost = search["reversepost"]
-
-    if mp.contains(marked, vertex):
-        return search
-
-    mp.put(marked, vertex, True)
-    q.enqueue(pre, vertex)
-
+def dfs_vertex(my_graph, vertex, visited_map):
+    
     adj = dig.adjacents(my_graph, vertex)
+    
     for i in range(lt.size(adj)):
         w = lt.get_element(adj, i)
-        if not mp.contains(marked, w):
-            dfs_vertex(my_graph, w, search)
+        if not mp.contains(visited_map, w):
+            
+            mp.put(visited_map, w, {
+                'edge_from': vertex,
+                'visited': True
+            })
+            dfs_vertex(my_graph, w, visited_map)
 
-    q.enqueue(post, vertex)
-    st.push(reversepost, vertex)
-
-    return search
+    return visited_map
 
 
 def has_path_to(key_v, visited_map):
-    marked = visited_map["marked"]
-    return mp.contains(marked, key_v)
+    return mp.contains(visited_map, key_v)
 
 
 def path_to(key_v, visited_map):
@@ -54,5 +52,11 @@ def path_to(key_v, visited_map):
         return None
 
     path = st.new_stack()
-    st.push(path, key_v)
+    
+    current = key_v
+    while current is not None:
+        st.push(path, current)
+        vertex_info = mp.get(visited_map, current)
+        current = vertex_info['edge_from']
+    
     return path
