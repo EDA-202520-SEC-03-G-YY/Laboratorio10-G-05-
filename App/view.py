@@ -28,6 +28,7 @@
 import sys
 import threading
 from App import logic
+from DataStructures.List import array_list as al
 
 """
 La vista se encarga de la interacción con el usuario.
@@ -80,13 +81,7 @@ def option_two(cont):
     print("\n------ OPCIÓN 2 ------")
     print("Las paradas más concurridas son:")
     
-    # Obtener las paradas más concurridas
     resp = logic.get_most_concurrent_stops(cont)
-    
-    # Importar array_list para recorrer
-    from DataStructures.List import array_list as al
-    
-    # Imprimir cada parada
     for i in range(al.size(resp)):
         stop = al.get_element(resp, i)
         print(f"{i+1}. '{stop['BusStopCode']}': {stop['out_degree']} conexiones")
