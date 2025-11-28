@@ -349,7 +349,7 @@ def get_route_between_stops_dfs(analyzer, stop1, stop2):
     
     while not st.is_empty(temp_stack):
         vertex = st.pop(temp_stack)
-        al.add_last(result, vertex)
+        al.add_first(result, vertex)
     
     return result
             
@@ -385,18 +385,45 @@ def get_route_between_stops_bfs(analyzer, stop1, stop2):
     
     while not st.is_empty(temp_stack):
         vertex = st.pop(temp_stack)
-        al.add_last(result, vertex)
+        al.add_first(result, vertex)
     
     return result
 
 def get_shortest_route_between_stops(analyzer, stop1, stop2):
     """
-    Obtener la ruta mínima entre dos paradas
+    Obtener la ruta mínima entre dos paradas usando Dijkstra
     """
-    # TODO: Obtener la ruta mínima entre dos paradas
-    # Nota: Tenga en cuenta que el debe guardar en la llave
-    #       analyzer['paths'] el resultado del algoritmo de Dijkstra
-    ...
+    from DataStructures.Graph import dijsktra as dijk
+    
+    graph = analyzer["connections"]
+    
+    if not G.contains_vertex(graph, stop1):
+        return None
+    if not G.contains_vertex(graph, stop2):
+        return None
+    
+    dijk_structure = dijk.dijkstra(graph, stop1)
+    
+    if not dijk.has_path_to(stop2, dijk_structure):
+        return None
+    
+    path_stack = dijk.path_to(stop2, dijk_structure)
+    
+    if path_stack is None:
+        return None
+    
+    result = al.new_list()
+    temp_stack = st.new_stack()
+    
+    while not st.is_empty(path_stack):
+        vertex = st.pop(path_stack)
+        st.push(temp_stack, vertex)
+    
+    while not st.is_empty(temp_stack):
+        vertex = st.pop(temp_stack)
+        al.add_first(result, vertex)
+    
+    return result
 
 def show_calculated_shortest_route(analyzer, destination_stop):
     # (Opcional) TODO: Mostrar en un mapa la ruta mínima entre dos paradas usando folium

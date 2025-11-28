@@ -93,23 +93,135 @@ def option_three(cont):
     """
     Opción 3: Encontrar una ruta entre dos paradas usando DFS
     """
+    print("\n----- OPCIÓN 3 (DFS) -----")
     stop1 = input("Parada inicial: ")
     stop2 = input("Parada destino: ")
     
-    path = logic.get_route_between_stops_bfs(cont, stop1, stop2)
-    print(path)
+    print(f"\n--- Tomar bus '{stop1.split('-')[1]}' desde '{stop1.split('-')[0]}' ---")
+    
+    path = logic.get_route_between_stops_dfs(cont, stop1, stop2)
+    
+    if path is None:
+        print("\nNo existe ruta entre las paradas especificadas.")
+        return
+    previous_bus = None
+    previous_stop = None
+    
+    for i in range(al.size(path)):
+        vertex = al.get_element(path, i)
+        parts = vertex.split('-')
+        stop_code = parts[0]
+        bus_number = parts[1]
+        
+        if i == 0:
+            print(f"{stop_code}", end="")
+            previous_bus = bus_number
+            previous_stop = stop_code
+        else:
+            
+            if bus_number != previous_bus:
+                print(f"\n--- Cambiar a la parada '{previous_stop}' ---")
+                print(f"--- Tomar bus '{bus_number}' desde la parada '{stop_code}' ---")
+                print(f"{stop_code}", end="")
+                previous_bus = bus_number
+            else:
+                print(f" -> {stop_code}", end="")
+            
+            previous_stop = stop_code
+    
+    print()
+
 
 def option_four(cont):
-    # TODO: Imprimir los resultados de la opción 4
+    """
+    Opción 4: Encontrar una ruta entre dos paradas usando BFS
+    """
+    print("\n----- OPCIÓN 4 (BFS) -----")
     stop1 = input("Parada inicial: ")
     stop2 = input("Parada destino: ")
     
+    print(f"\n--- Tomar bus '{stop1.split('-')[1]}' desde '{stop1.split('-')[0]}' ---")
+    
     path = logic.get_route_between_stops_bfs(cont, stop1, stop2)
-    print(path)
+    
+    if path is None:
+        print("\nNo existe ruta entre las paradas especificadas.")
+        return
+    
+    previous_bus = None
+    previous_stop = None
+    
+    for i in range(al.size(path)):
+        vertex = al.get_element(path, i)
+        parts = vertex.split('-')
+        stop_code = parts[0]
+        bus_number = parts[1]
+        
+        if i == 0:
+            # Primera parada
+            print(f"{stop_code}", end="")
+            previous_bus = bus_number
+            previous_stop = stop_code
+        else:
+            # Verificar si hay cambio de bus
+            if bus_number != previous_bus:
+                print(f"\n--- Cambiar a la parada '{previous_stop}' ---")
+                print(f"--- Tomar bus '{bus_number}' desde la parada '{stop_code}' ---")
+                print(f"{stop_code}", end="")
+                previous_bus = bus_number
+            else:
+                print(f" -> {stop_code}", end="")
+            
+            previous_stop = stop_code
+    
+    print()  
+        
 
 def option_five(cont):
-    # TODO: Imprimir los resultados de la opción 5
-    ...
+    """
+    Opción 5: Encontrar la ruta de distancia mínima usando Dijkstra
+    """
+    print("\n----- OPCIÓN 5 (Dijkstra) -----")
+    origin = input("Origen: ")
+    destination = input("Destino: ")
+    
+    origin_bus = origin.split('-')[1]
+    origin_stop = origin.split('-')[0]
+    
+    print(f"\n--- Tomar bus '{origin_bus}' desde '{origin_stop}-{origin_bus}' ---")
+    
+    path = logic.get_shortest_route_between_stops(cont, origin, destination)
+    
+    if path is None:
+        print("\nNo existe ruta entre las paradas especificadas.")
+        return
+    
+    from DataStructures.List import array_list as al
+    
+    previous_bus = None
+    previous_stop = None
+    
+    for i in range(al.size(path)):
+        vertex = al.get_element(path, i)
+        parts = vertex.split('-')
+        stop_code = parts[0]
+        bus_number = parts[1]
+        
+        if i == 0:
+            print(f"{stop_code}", end="")
+            previous_bus = bus_number
+            previous_stop = stop_code
+        else:
+            if bus_number != previous_bus:
+                print(f"\n--- Cambiar a bus '{bus_number}' en la parada '{previous_stop}' ---")
+                print(f"{stop_code}", end="")
+                previous_bus = bus_number
+            else:
+                print(f" -> {stop_code}", end="")
+            
+            previous_stop = stop_code
+    
+    print()
 
 def option_six(cont):
     # (Opcional) TODO: Imprimir los resultados de la opción 6
